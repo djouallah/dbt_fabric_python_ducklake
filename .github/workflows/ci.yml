@@ -22,7 +22,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install dbt-duckdb azure-storage-blob
+      # Pin duckdb 1.5.2: later releases hide the __ducklake_metadata_* catalog
+      # from duckdb_databases(), which breaks the published delta_export extension.
+      - run: pip install dbt-duckdb "duckdb==1.5.2" azure-storage-blob
       - name: Start Azurite
         run: |
           npm install -g azurite
